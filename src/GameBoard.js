@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Square from './Square';
+import Tile from './Tile';
 
 const style = {
   gameboard__row: {
@@ -82,7 +82,7 @@ export default class GameBoard extends Component {
     for (let i = 0; i < this.state.sideLength; i++) {
       let row = [];
       for (let j = 0; j < this.state.sideLength; j++) {
-        row.push(<Square key={j} icon={chosen_icons.pop()} />);
+        row.push(<Tile key={j} icon={chosen_icons.pop()} />);
       }
       board.push(<div className="gameboard__row" style={style['gameboard__row']} key={i}>{row}</div>);
     }
