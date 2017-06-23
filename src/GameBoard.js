@@ -86,6 +86,7 @@ class GameBoard extends Component {
     for (let i = 0; i < tiles.length; i += 1) {
       tiles[i] = {
         icon: chosenIcons.pop(),
+        color: 'white', // TODO: different color for each uncovered tile
         covered: true,
         matched: false,
       };
