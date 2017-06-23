@@ -5,7 +5,7 @@ export default class MemoryGame extends Component {
   render() {
     return (
       <div className="memorygame">
-        <GameBoard />
+        <GameBoard sideLength={4} />
       </div>
     );
   }

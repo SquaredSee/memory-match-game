@@ -52,37 +52,60 @@ function shuffle(array) {
 }
 
 export default class GameBoard extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      sideLength: 4
+      sideLength: props.sideLength,
+      tiles: this.initTiles(props.sideLength),
     }
   }
 
-  render() {
-    const icons_needed = this.state.sideLength * this.state.sideLength / 2;
-    let chosen_icons = []
+  initTiles(sideLength) {
+    const icons_needed = (sideLength * sideLength) / 2;
+    let chosen_icons = [];
+
     for (let i = 0; i < icons_needed; i++) {
       // keep looping until a new icon is chosen
-      let chosen = null
+      let chosen = null;
+
       do {
-        let index = getRandom(0, icons.length)
-        chosen = icons[index]
+        let index = getRandom(0, icons.length);
+        chosen = icons[index];
       } while (chosen_icons.includes(chosen));
-      chosen_icons.push(chosen)
+
+      chosen_icons.push(chosen);
     }
 
     // need two of each icon
     chosen_icons = chosen_icons.concat(chosen_icons)
-    // randomize order
+    // randomize order of icons
     chosen_icons = shuffle(chosen_icons)
 
+    let tiles = new Array(sideLength * sideLength);
+    for (let i = 0; i < tiles.length; i += 1) {
+      tiles[i] = {
+        icon: chosen_icons.pop(),
+        covered: true,
+        matched: false,
+      }
+    }
+    return tiles;
+  }
 
+  render() {
     let board = [];
+    let tileIndex = 0;
+
     for (let i = 0; i < this.state.sideLength; i++) {
       let row = [];
       for (let j = 0; j < this.state.sideLength; j++) {
-        row.push(<Tile key={j} icon={chosen_icons.pop()} />);
+        row.push(
+          <Tile
+            key={j}
+            tileIndex={tileIndex}
+            tileState={this.state.tiles[tileIndex]}
+          />);
+          tileIndex += 1;
       }
       board.push(<div className="gameboard__row" style={style['gameboard__row']} key={i}>{row}</div>);
     }

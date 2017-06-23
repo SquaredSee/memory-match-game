@@ -16,7 +16,9 @@ const style = {
 export default class Tile extends Component {
   render() {
     return (
-      <div className="tile" style={style} onClick={() => {this.props.onClick()}}><i className={this.props.icon}></i></div>
+      <div className="tile" style={style}>
+        <i className={this.props.tileState.icon}></i>
+      </div>
     );
   }
 }
