@@ -94,6 +94,26 @@ class GameBoard extends Component {
     return tiles;
   }
 
+  handleClick(i) {
+    console.log(`handleClick: ${i}`);
+    const newTiles = this.state.tiles.slice();
+    // console.log(newTiles);
+    newTiles[i].covered = !(newTiles[i].covered);
+    this.setState({ tiles: newTiles });
+    return false;
+  }
+
+  tileRender(key, ind) {
+    return (
+      <Tile
+        key={key}
+        tileIndex={ind}
+        tileState={this.state.tiles[ind]}
+        onClick={() => this.handleClick(ind)}
+      />
+    );
+  }
+
   render() {
     const board = [];
     let tileIndex = 0;
@@ -101,20 +121,14 @@ class GameBoard extends Component {
     for (let i = 0; i < this.state.sideLength; i += 1) {
       const row = [];
       for (let j = 0; j < this.state.sideLength; j += 1) {
-        row.push(
-          <Tile
-            key={j}
-            tileIndex={tileIndex}
-            tileState={this.state.tiles[tileIndex]}
-          />,
-        );
+        row.push(this.tileRender(j, tileIndex));
         tileIndex += 1;
       }
-      board.push(<div className="gameboard__row" style={style.gameboard__row} key={i}>{row}</div>);
+      board.push(<div className="gameboard__row col-md-12" key={i}>{row}</div>);
     }
 
     return (
-      <div className="gameboard">
+      <div className="gameboard container">
         {board}
       </div>
     );

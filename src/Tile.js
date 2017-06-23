@@ -16,18 +16,29 @@ const style = {
 
 
 const Tile = (props) => {
-  let tile;
+  let icon;
+  let styleClone;
 
   if (props.tileState.covered) {
-    style.backgroundColor = 'black';
-    const icon = <i />;
-    tile = <div className="tile" style={style}>{icon}</div>;
+    styleClone = Object.assign({}, style, { backgroundColor: 'black' });
+    icon = <i />;
   }
   else {
-    style.backgroundColor = props.tileState.color;
-    const icon = <i className={props.tileState.icon} style={style} />;
-    tile = <div className="tile" style={style}>{icon}</div>;
+    styleClone = Object.assign({}, style, { backgroundColor: props.tileState.color });
+    icon = <i className={props.tileState.icon} />;
   }
+
+  const tile = (
+    <div
+      className="tile col-md-3"
+      style={styleClone}
+      onClick={props.onClick}
+      role="button"
+      tabIndex="-1"
+    >
+      {icon}
+    </div>
+  );
 
   return tile;
 };
@@ -40,5 +51,6 @@ Tile.propTypes = {
     covered: PropTypes.bool.isRequired,
     matched: PropTypes.bool.isRequired,
   }).isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 export default Tile;
