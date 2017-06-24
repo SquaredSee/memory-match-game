@@ -86,6 +86,9 @@ class GameBoard extends Component {
   initTiles(sideLength) {
     const iconsNeeded = (sideLength * sideLength) / 2;
     let chosenIcons = [];
+    if (iconsNeeded > icons.length) {
+      return false;
+    }
 
     for (let i = 0; i < iconsNeeded; i += 1) {
       // keep looping until a new icon is chosen
@@ -108,7 +111,6 @@ class GameBoard extends Component {
     for (let i = 0; i < tiles.length; i += 1) {
       tiles[i] = {
         icon: chosenIcons.pop(),
-        color: 'white', // TODO: different color for each uncovered tile
         covered: true,
         matched: false,
       };
@@ -140,17 +142,23 @@ class GameBoard extends Component {
     const board = [];
     let tileIndex = 0;
 
+    // if sidelength was too long for the amount of tiles
+    if (!this.state.tiles) {
+      return <div>Sidelength too long</div>
+    }
+
     for (let i = 0; i < this.state.sideLength; i += 1) {
       const row = [];
+
       for (let j = 0; j < this.state.sideLength; j += 1) {
         row.push(this.tileRender(j, tileIndex));
         tileIndex += 1;
       }
-      board.push(<div className="gameboard__row col-md-12" key={i}>{row}</div>);
+      board.push(<div className="row" key={i}>{row}</div>);
     }
 
     return (
-      <div className="gameboard container">
+      <div className="container-fluid">
         {board}
       </div>
     );

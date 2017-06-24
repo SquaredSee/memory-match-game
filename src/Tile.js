@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const darkGray = '#333333';
+
 const style = {
   backgroundColor: 'white',
-  borderColor: 'black',
+  borderColor: darkGray,
   borderStyle: 'solid',
   margin: 5,
   height: 100,
@@ -20,17 +22,17 @@ const Tile = (props) => {
   let styleClone;
 
   if (props.tileState.covered) {
-    styleClone = Object.assign({}, style, { backgroundColor: 'black' });
+    styleClone = Object.assign({}, style, { backgroundColor: darkGray });
     icon = <i />;
   }
   else {
-    styleClone = Object.assign({}, style, { backgroundColor: props.tileState.color });
+    styleClone = Object.assign({}, style, { backgroundColor: 'transparent' });
     icon = <i className={props.tileState.icon} />;
   }
 
   const tile = (
     <div
-      className="tile col-md-3"
+      className="tile col-sm-1"
       style={styleClone}
       onClick={props.onClick}
       role="button"
@@ -47,7 +49,6 @@ Tile.propTypes = {
   tileIndex: PropTypes.number.isRequired,
   tileState: PropTypes.shape({
     icon: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
     covered: PropTypes.bool.isRequired,
     matched: PropTypes.bool.isRequired,
   }).isRequired,
