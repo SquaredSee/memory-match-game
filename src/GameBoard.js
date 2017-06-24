@@ -91,9 +91,9 @@ class GameBoard extends Component {
     }
 
     for (let i = 0; i < iconsNeeded; i += 1) {
-      // keep looping until a new icon is chosen
       let chosen = null;
 
+      // keep looping until an icon not already chosen is chosen
       do {
         const index = getRandom(0, icons.length);
         chosen = icons[index];
