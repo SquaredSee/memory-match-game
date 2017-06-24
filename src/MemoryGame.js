@@ -6,7 +6,7 @@ class MemoryGame extends Component {
   render() {
     return (
       <div className="memorygame">
-        <GameBoard sideLength={5} />
+        <GameBoard sideLength={4} />
       </div>
     );
   }

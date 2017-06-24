@@ -73,6 +73,12 @@ class GameBoard extends Component {
     super(props);
     this.state = {
       sideLength: props.sideLength,
+      resetNext: false, // true if only one card has been selected
+      prevTile: {
+        index: null,
+        icon: null,
+      },
+      wait: false, // true if waiting for tiles to be re-covered
       tiles: this.initTiles(props.sideLength),
     };
   }
@@ -113,12 +119,57 @@ class GameBoard extends Component {
   }
 
   handleClick(i) {
-    console.log(`handleClick: ${i}`);
-    const newTiles = this.state.tiles.slice();
-    // console.log(newTiles);
-    newTiles[i].covered = !(newTiles[i].covered);
-    this.setState({ tiles: newTiles });
-    return false;
+    if (this.state.tiles[i].matched || this.state.wait || !this.state.tiles[i].covered) {
+      return false;
+    }
+    else if (this.state.tiles[i].covered && !this.state.resetNext) {
+      const newTiles = this.state.tiles.slice();
+      newTiles[i].covered = false;
+
+      this.setState(
+        {
+          resetNext: true,
+          prevTile: {
+            index: i,
+            icon: this.state.tiles[i].icon,
+          },
+          tiles: newTiles
+        }
+      );
+    }
+    else if (this.state.tiles[i].covered && this.state.resetNext) {
+      const newTiles = this.state.tiles.slice();
+      newTiles[i].covered = false;
+
+      this.setState({ resetNext: false, wait: true, tiles: newTiles });
+
+      if (newTiles[i].icon === this.state.prevTile.icon) {
+        newTiles[i].matched = true;
+        newTiles[this.state.prevTile.index].matched = true;
+        this.setState({tiles: newTiles, wait: false});
+      }
+      else {
+        setTimeout(() => {
+          const newTiles = this.state.tiles.slice();
+
+          newTiles[i].covered = true;
+          newTiles[this.state.prevTile.index].covered = true;
+
+          this.setState({wait: false, tiles: newTiles})
+        }, 750);
+      }
+    }
+    else {
+      return false;
+    }
+
+    for (let ind = 0; ind < this.state.tiles.length; ind += 1) {
+      if (!this.state.tiles[ind].matched) {
+        return false;
+      }
+    }
+
+    alert('you win!');
   }
 
   tileRender(key, ind) {
