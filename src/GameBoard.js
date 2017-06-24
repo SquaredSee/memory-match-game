@@ -120,9 +120,11 @@ class GameBoard extends Component {
 
   handleClick(i) {
     if (this.state.tiles[i].matched || this.state.wait || !this.state.tiles[i].covered) {
+      // Don't do anything if the tile is already matched, is uncovered, or the game is in wait mode
       return false;
     }
     else if (this.state.tiles[i].covered && !this.state.resetNext) {
+      // If a single tile has been selected, and the clicked tile is covered
       const newTiles = this.state.tiles.slice();
       newTiles[i].covered = false;
 
@@ -138,25 +140,32 @@ class GameBoard extends Component {
       );
     }
     else if (this.state.tiles[i].covered && this.state.resetNext) {
+      // if clicked tile is the second one clicked, and it is covered
       const newTiles = this.state.tiles.slice();
       newTiles[i].covered = false;
 
       this.setState({ resetNext: false, wait: true, tiles: newTiles });
 
       if (newTiles[i].icon === this.state.prevTile.icon) {
+        // if the current and previous tiles match
+
+        // set tiles matched state
         newTiles[i].matched = true;
         newTiles[this.state.prevTile.index].matched = true;
+
         this.setState({tiles: newTiles, wait: false});
       }
       else {
+        // if the current and previous tiles do not match
         setTimeout(() => {
           const newTiles = this.state.tiles.slice();
 
+          // set tiles covered state
           newTiles[i].covered = true;
           newTiles[this.state.prevTile.index].covered = true;
 
           this.setState({wait: false, tiles: newTiles})
-        }, 750);
+        }, 750);  // 750ms timeout
       }
     }
     else {
