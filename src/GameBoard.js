@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Tile from './Tile';
 
-const style = {
-  gameboard__row: {
-    display: 'inline-block',
-  },
-};
-
 const icons = [
   'fa fa-futbol-o',
   'fa fa-fire',
