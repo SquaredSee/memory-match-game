@@ -51,6 +51,7 @@ function getRandom(min, max) {
 
 function shuffle(array) {
   let counter = array.length;
+  const arr = array;
 
   // While there are elements in the array
   while (counter > 0) {
@@ -61,11 +62,11 @@ function shuffle(array) {
     counter -= 1;
 
     // And swap the last element with it
-    const temp = array[counter];
-    array[counter] = array[index];
-    array[index] = temp;
+    const temp = arr[counter];
+    arr[counter] = arr[index];
+    arr[index] = temp;
   }
-  return array;
+  return arr;
 }
 
 class GameBoard extends Component {
@@ -125,7 +126,7 @@ class GameBoard extends Component {
     }
     else if (this.state.tiles[i].covered && !this.state.resetNext) {
       // If a single tile has been selected, and the clicked tile is covered
-      const newTiles = this.state.tiles.slice();
+      let newTiles = this.state.tiles.slice();
       newTiles[i].covered = false;
 
       this.setState(
@@ -135,13 +136,13 @@ class GameBoard extends Component {
             index: i,
             icon: this.state.tiles[i].icon,
           },
-          tiles: newTiles
-        }
+          tiles: newTiles,
+        },
       );
     }
     else if (this.state.tiles[i].covered && this.state.resetNext) {
       // if clicked tile is the second one clicked, and it is covered
-      const newTiles = this.state.tiles.slice();
+      let newTiles = this.state.tiles.slice();
       newTiles[i].covered = false;
 
       this.setState({ resetNext: false, wait: true, tiles: newTiles });
@@ -158,13 +159,13 @@ class GameBoard extends Component {
       else {
         // if the current and previous tiles do not match
         setTimeout(() => {
-          const newTiles = this.state.tiles.slice();
+          newTiles = this.state.tiles.slice();
 
           // set tiles covered state
           newTiles[i].covered = true;
           newTiles[this.state.prevTile.index].covered = true;
 
-          this.setState({wait: false, tiles: newTiles})
+          this.setState({wait: false, tiles: newTiles});
         }, 750);  // 750ms timeout
       }
     }
@@ -179,6 +180,7 @@ class GameBoard extends Component {
     }
 
     alert('you win!');
+    return true;
   }
 
   tileRender(key, ind) {
@@ -198,7 +200,7 @@ class GameBoard extends Component {
 
     // if sidelength was too long for the amount of tiles
     if (!this.state.tiles) {
-      return <div>Sidelength too long</div>
+      return <div>Sidelength too long</div>;
     }
 
     for (let i = 0; i < this.state.sideLength; i += 1) {
