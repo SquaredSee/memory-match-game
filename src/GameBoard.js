@@ -19,7 +19,6 @@ const icons = [
   'fa fa-circle-o',
   'fa fa-coffee',
   'fa fa-heart',
-  'fa fa-microchip',
   'fa fa-snowflake-o',
   'fa fa-cloud',
   'fa fa-briefcase',
