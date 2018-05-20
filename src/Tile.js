@@ -32,7 +32,7 @@ const Tile = (props) => {
 
   const tile = (
     <div
-      className="tile col-sm-1"
+      className="tile col-xs-3"
       style={styleClone}
       onClick={props.onClick}
       role="button"
